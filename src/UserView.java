@@ -1,16 +1,23 @@
 import javax.swing.JPanel;
 
 /**
- * Kelas SearchView, menampilkan layar search beserta hasil search.
+ * Kelas UserView, menampilkan user yang dipilih.
  *
  * @author Vincent Hendryanto H / 13515089
  */
-public class SearchView extends JPanel {
+public class UserView extends JPanel {
 
-  public SearchView(){
+  /**
+   * Konstruktor kelas userView
+   */
+  public UserView(){
 
   }
 
+  /**
+   * Menampilkan info user yang dipilih.
+   * @param user user yang dipilih
+   */
   public void setUser(User user) {
     //this.user = user;
   }
