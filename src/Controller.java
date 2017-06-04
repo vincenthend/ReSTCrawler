@@ -1,7 +1,8 @@
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.LinkedList;
-import jdk.nashorn.internal.parser.JSONParser;
-
+import org.json.JSONObject;
 
 /**
  * Kelas Controller, mengontrol flow data.
@@ -15,32 +16,32 @@ public class Controller {
    */
   public Controller(){
     controllableUI = new UserInterface();
-
-
   }
 
-  private JSONParser getJson(URL link){
-    /*try {
-      connection = (HttpURLConnection) link.openConnection();
-      connection.setRequestMethod("GET");
-      connection.setRequestProperty("Content-length", "0");
-      connection.getInputStream();
-      connection.setConnectTimeout(20000);
-      connection.setRequestProperty("Content-Type", "application/json");
+  private JSONObject getJson(String link){
+    JSONObject jsonObject = null;
+    try {
+      InputStream input = new URL(link).openStream();
+      StringBuffer jsontext = new StringBuffer();
 
-
-    } catch (MalformedURLException e) {
-      e.printStackTrace();
+      int i;
+      i = input.read();
+      while(i != -1){
+        jsontext.append((char)i);
+        i = input.read();
+      }
+      System.out.println(jsontext);
+      jsonObject = new JSONObject(jsontext);
     } catch (IOException e) {
       e.printStackTrace();
-    }*/
-    return null;
+    }
+    return jsonObject;
   }
 
   /**
    * Melakukan search username dengan request kepada REST API.
    * @param query string username yang dicari
-   * @param method
+   * @param method metode pencarian (0 =
    * @return daftar user yang ditemukan
    */
   public LinkedList<User> searchUser(String query, int method){
