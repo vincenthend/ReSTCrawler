@@ -39,6 +39,7 @@ public class UserInterface extends JFrame {
 
     setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+    setTitle("Github Search");
     setSize(1000, 500);
     setVisible(true);
   }
@@ -48,7 +49,7 @@ public class UserInterface extends JFrame {
    *
    * @param userList daftar user hasil pencarian
    */
-  public void showSearchResult(LinkedList<User> userList) {
+  public void showSearchResult(LinkedList<String> userList) {
     searchView.setResult(userList);
     repaint();
   }

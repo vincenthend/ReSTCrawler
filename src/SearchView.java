@@ -1,7 +1,9 @@
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.LinkedList;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -14,6 +16,7 @@ public class SearchView extends JPanel {
   private final int searchLength = 200;
   private JTextField searchBox;
   private JButton searchButton;
+  private JComboBox searchOption;
   private SearchResult searchResult;
 
   /**
@@ -29,24 +32,34 @@ public class SearchView extends JPanel {
     constraints.gridx = 0;
     constraints.gridy = 0;
     constraints.fill = GridBagConstraints.HORIZONTAL;
-    constraints.weighty = 0.5;
     constraints.weightx = 0.85;
+    constraints.insets = new Insets(5,0,0,0);
     add(searchBox,constraints);
+
+    //Text Combo Box
+    String[] searchMethod = {"Username", "Email", "Full Name"};
+    searchOption = new JComboBox(searchMethod);
+    constraints.gridx = 1;
+    constraints.weightx = 0.15;
+    add(searchOption, constraints);
 
     //Search Button
     searchButton = new JButton();
     searchButton.setText("Search");
-    constraints.gridx = 1;
-    constraints.weightx = 0.15;
+    constraints.gridx = 0;
+    constraints.gridy = 1;
+    constraints.fill = GridBagConstraints.HORIZONTAL;
+    constraints.gridwidth = 2;
     add(searchButton,constraints);
 
     //Search Result
     searchResult = new SearchResult();
     constraints.gridx = 0;
-    constraints.gridy = 1;
+    constraints.gridy = 2;
     constraints.gridwidth = 2;
     constraints.weighty = 10;
     constraints.weightx = 1;
+    constraints.insets = new Insets(5,0,5,0);
     constraints.fill = GridBagConstraints.BOTH;
     add(searchResult,constraints);
   }
@@ -55,7 +68,7 @@ public class SearchView extends JPanel {
    * Menampilkan hasil pencarian.
    * @param result list user hasil pencarian
    */
-  public void setResult(LinkedList<User> result) {
+  public void setResult(LinkedList<String> result) {
     //this.result = result;
   }
 }

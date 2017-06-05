@@ -1,5 +1,8 @@
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.LinkedList;
 import org.json.JSONObject;
@@ -10,28 +13,43 @@ import org.json.JSONObject;
  * @author Vincent Hendryanto Halim / 13515089
  */
 public class Controller {
+  private final String apiRoot = "https://api.github.com";
   private UserInterface controllableUI;
+
   /**
    * Konstruktor controller
    */
-  public Controller(){
+  public Controller() {
     controllableUI = new UserInterface();
   }
 
-  private JSONObject getJson(String link){
+  public JSONObject getJson(String link) {
     JSONObject jsonObject = null;
+    HttpURLConnection connection;
     try {
-      InputStream input = new URL(link).openStream();
-      StringBuffer jsontext = new StringBuffer();
-
-      int i;
-      i = input.read();
-      while(i != -1){
-        jsontext.append((char)i);
-        i = input.read();
+      connection = (HttpURLConnection) new URL(link).openConnection();
+      connection.setRequestMethod("GET");
+      connection.setRequestProperty("Content-length", "0");
+      connection.setAllowUserInteraction(false);
+      connection.setUseCaches(false);
+      connection.connect();
+      int response = connection.getResponseCode();
+      if (response == 200 || response == 201) {
+        BufferedReader reader = new BufferedReader(
+            new InputStreamReader(connection.getInputStream()));
+        StringBuilder jsonString = new StringBuilder();
+        String line;
+        line = reader.readLine();
+        while (line != null) {
+          jsonString.append(line + "\n");
+          line = reader.readLine();
+        }
+        reader.close();
+        System.out.println(jsonString);
+        jsonObject = new JSONObject(jsonString);
       }
-      System.out.println(jsontext);
-      jsonObject = new JSONObject(jsontext);
+    } catch (MalformedURLException e) {
+      e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -39,13 +57,15 @@ public class Controller {
   }
 
   /**
-   * Melakukan search username dengan request kepada REST API.
-   * @param query string username yang dicari
-   * @param method metode pencarian (0 =
-   * @return daftar user yang ditemukan
+   * Melakukan search username/email/nama dengan request kepada REST API.
+   *
+   * @param query string username/email/nama yang dicari
+   * @return daftar username yang ditemukan
    */
-  public LinkedList<User> searchUser(String query, int method){
-
+  public LinkedList<String> searchUsername(StringBuffer query) {
+    JSONObject searchResult = getJson(apiRoot+"/search/users?q="+query);
     return null;
   }
+
+
 }
