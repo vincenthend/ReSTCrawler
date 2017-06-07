@@ -1,6 +1,7 @@
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -70,5 +71,9 @@ public class SearchView extends JPanel {
    */
   public void setResult(LinkedList<String> result) {
     //this.result = result;
+  }
+
+  public void setSearchListener(ActionListener actionListener){
+    searchButton.addActionListener(actionListener);
   }
 }

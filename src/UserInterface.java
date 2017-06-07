@@ -1,6 +1,7 @@
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import javax.swing.JFrame;
 
@@ -14,7 +15,7 @@ public class UserInterface extends JFrame {
   private UserView userView;
 
   /**
-   * Konstruktor UserInterface
+   * Konstruktor UserInterface.
    */
   public UserInterface() {
     searchView = new SearchView();
@@ -43,6 +44,11 @@ public class UserInterface extends JFrame {
     setSize(1000, 500);
     setVisible(true);
   }
+
+  public void setSearchListener(ActionListener actionListener){
+    searchView.setSearchListener(actionListener);
+  }
+
 
   /**
    * Menampilkan daftar user hasil pencarian.

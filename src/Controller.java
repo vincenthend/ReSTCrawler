@@ -1,3 +1,5 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -5,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.LinkedList;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -13,25 +16,37 @@ import org.json.JSONObject;
  * @author Vincent Hendryanto Halim / 13515089
  */
 public class Controller {
-  private final String apiRoot = "https://api.github.com";
-  private UserInterface controllableUI;
+  private UserInterface controlledUI;
 
   /**
-   * Konstruktor controller
+   * Konstruktor controller, membuat UI dan memasang action listener.
    */
   public Controller() {
-    controllableUI = new UserInterface();
+    controlledUI = new UserInterface();
+
+    //Add action listener
+    controlledUI.setSearchListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent actionEvent) {
+        //LinkedList<String> query = controlledUI.getSearchQuery();
+
+        //controlledUI.showSearchResult(searchUsername(query));
+      }
+    });
   }
 
+  /**
+   * Mengambil data JSON dari lokasi URL tertentu.
+   *
+   * @param link URL lokasi file JSON
+   * @return JSONObject berisi data JSON dari URL
+   */
   public JSONObject getJson(String link) {
     JSONObject jsonObject = null;
     HttpURLConnection connection;
     try {
       connection = (HttpURLConnection) new URL(link).openConnection();
       connection.setRequestMethod("GET");
-      connection.setRequestProperty("Content-length", "0");
-      connection.setAllowUserInteraction(false);
-      connection.setUseCaches(false);
       connection.connect();
       int response = connection.getResponseCode();
       if (response == 200 || response == 201) {
@@ -41,12 +56,11 @@ public class Controller {
         String line;
         line = reader.readLine();
         while (line != null) {
-          jsonString.append(line + "\n");
+          jsonString.append(line);
           line = reader.readLine();
         }
         reader.close();
-        System.out.println(jsonString);
-        jsonObject = new JSONObject(jsonString);
+        jsonObject = new JSONObject(jsonString.toString());
       }
     } catch (MalformedURLException e) {
       e.printStackTrace();
@@ -59,13 +73,25 @@ public class Controller {
   /**
    * Melakukan search username/email/nama dengan request kepada REST API.
    *
-   * @param query string username/email/nama yang dicari
+   * @param query data mengenai searching yang harus dilakukan
+   * elemen pertama berisi keyword, elemen kedua
    * @return daftar username yang ditemukan
    */
-  public LinkedList<String> searchUsername(StringBuffer query) {
-    JSONObject searchResult = getJson(apiRoot+"/search/users?q="+query);
-    return null;
+  public LinkedList<String> searchUsername(SearchQuery query) {
+    //Set method string query
+    String searchQuery = query.getSearchQuery();
+    JSONObject searchResult = getJson(searchQuery);
+
+    //Process JSONObject
+    int i;
+    int count = searchResult.getInt("total_count");
+    LinkedList<String> usernameList = new LinkedList<>();
+    JSONArray resultArray = searchResult.getJSONArray("items");
+
+    for (i = 0; i < count; i++) {
+      usernameList.addLast(resultArray.getJSONObject(i).getString("login"));
+    }
+
+    return usernameList;
   }
-
-
 }

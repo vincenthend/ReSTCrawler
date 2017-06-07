@@ -30,7 +30,7 @@ public class User {
   }
 
   /**
-   * Getter daftar repository yang dimiliki user.
+   * Getter daftar repository yang dimiliki user.t[poikqww
    * @return Linked list berisi daftar repository yang dimiliki user
    */
   public LinkedList<Repository> getRepositoryList() {
