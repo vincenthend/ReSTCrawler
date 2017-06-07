@@ -1,6 +1,5 @@
 import java.util.LinkedList;
 
-
 /**
  * Kelas SearchQuery, berisi data mengenai pencarian yang dilakukan
  *
@@ -32,12 +31,30 @@ public class SearchQuery {
    * @param sign tanda yang digunakan pada filter (<= atau >=)
    * @param amount nilai jumlah untuk filter
    */
-  public void setFilter(String code, char sign, int amount) {
+  public void addFilter(String code, String sign, int amount) {
     String[] parameter = new String[3];
     parameter[0] = code;
-    parameter[1] = Character.toString(sign);
+    parameter[1] = sign;
     parameter[2] = Integer.toString(amount);
     filter.add(parameter);
+  }
+
+  /**
+   * Setter keyword.
+   *
+   * @param keyword keyword pencarian
+   */
+  public void setKeyword(String keyword) {
+    this.keyword = keyword;
+  }
+
+  /**
+   * Setter method.
+   *
+   * @param method metode pencarian (0 = username, 1 = email, 2 = full name)
+   */
+  public void setMethod(int method) {
+    this.method = method;
   }
 
   /**
@@ -45,14 +62,14 @@ public class SearchQuery {
    *
    * @return URL yang digunakan untuk melakukan search query
    */
-  public String getSearchQuery() {
+  public String getSearchURL() {
     String root = "https://api.github.com/search/users?q=";
     String wordQuery = "";
     String locationQuery;
     String filterQuery;
     String searchURL;
 
-    if (keyword != "") {
+    if (!keyword.equals("")) {
       if (method == 1) {
         locationQuery = "+in:email";
       } else if (method == 2) {
@@ -60,7 +77,7 @@ public class SearchQuery {
       } else {
         locationQuery = "+in:login";
       }
-      wordQuery = keyword  + locationQuery;
+      wordQuery = keyword + locationQuery;
     }
 
     String[] tempFilter;

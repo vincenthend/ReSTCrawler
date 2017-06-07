@@ -69,4 +69,8 @@ public class UserInterface extends JFrame {
     userView.setUser(user);
     repaint();
   }
+
+  public SearchQuery getSearchQuery() {
+    return searchView.getSearchQuery();
+  }
 }

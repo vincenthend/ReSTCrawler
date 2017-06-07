@@ -76,4 +76,12 @@ public class SearchView extends JPanel {
   public void setSearchListener(ActionListener actionListener){
     searchButton.addActionListener(actionListener);
   }
+
+  public SearchQuery getSearchQuery() {
+    SearchQuery query = new SearchQuery(searchBox.getText(),searchOption.getSelectedIndex());
+
+    //add filter
+
+    return query;
+  }
 }
