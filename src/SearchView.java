@@ -2,7 +2,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -14,28 +13,29 @@ import javax.swing.JTextField;
  * @author Vincent Hendryanto H / 13515089
  */
 public class SearchView extends JPanel {
-  private final int searchLength = 200;
+
   private JTextField searchBox;
   private JButton searchButton;
   private JComboBox searchOption;
-  private SearchResult searchResult;
+  private SearchResultView searchResultViewView;
 
   /**
    * Konstruktor kelas SearchView.
    */
-  public SearchView(){
+  public SearchView() {
     setLayout(new GridBagLayout());
     GridBagConstraints constraints = new GridBagConstraints();
 
     //Text Search Box
     searchBox = new JTextField();
+    int searchLength = 200;
     searchBox.setColumns(searchLength);
     constraints.gridx = 0;
     constraints.gridy = 0;
     constraints.fill = GridBagConstraints.HORIZONTAL;
     constraints.weightx = 0.85;
-    constraints.insets = new Insets(5,0,0,0);
-    add(searchBox,constraints);
+    constraints.insets = new Insets(5, 0, 0, 0);
+    add(searchBox, constraints);
 
     //Text Combo Box
     String[] searchMethod = {"Username", "Email", "Full Name"};
@@ -51,37 +51,33 @@ public class SearchView extends JPanel {
     constraints.gridy = 1;
     constraints.fill = GridBagConstraints.HORIZONTAL;
     constraints.gridwidth = 2;
-    add(searchButton,constraints);
+    add(searchButton, constraints);
 
     //Search Result
-    searchResult = new SearchResult();
+    searchResultViewView = new SearchResultView();
     constraints.gridx = 0;
     constraints.gridy = 2;
     constraints.gridwidth = 2;
     constraints.weighty = 10;
     constraints.weightx = 1;
-    constraints.insets = new Insets(5,0,5,0);
+    constraints.insets = new Insets(5, 0, 5, 0);
     constraints.fill = GridBagConstraints.BOTH;
-    add(searchResult,constraints);
+    add(searchResultViewView, constraints);
   }
 
-  /**
-   * Menampilkan hasil pencarian.
-   * @param result list user hasil pencarian
-   */
-  public void setResult(LinkedList<String> result) {
-    //this.result = result;
-  }
-
-  public void setSearchListener(ActionListener actionListener){
+  public void setSearchListener(ActionListener actionListener) {
     searchButton.addActionListener(actionListener);
   }
 
   public SearchQuery getSearchQuery() {
-    SearchQuery query = new SearchQuery(searchBox.getText(),searchOption.getSelectedIndex());
+    SearchQuery query = new SearchQuery(searchBox.getText(), searchOption.getSelectedIndex());
 
     //add filter
 
     return query;
+  }
+
+  public SearchResultView getSearchResultViewView() {
+    return searchResultViewView;
   }
 }

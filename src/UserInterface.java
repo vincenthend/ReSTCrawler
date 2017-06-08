@@ -1,8 +1,6 @@
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionListener;
-import java.util.LinkedList;
 import javax.swing.JFrame;
 
 /**
@@ -45,32 +43,11 @@ public class UserInterface extends JFrame {
     setVisible(true);
   }
 
-  public void setSearchListener(ActionListener actionListener){
-    searchView.setSearchListener(actionListener);
+  public SearchView getSearchView() {
+    return searchView;
   }
 
-
-  /**
-   * Menampilkan daftar user hasil pencarian.
-   *
-   * @param userList daftar user hasil pencarian
-   */
-  public void showSearchResult(LinkedList<String> userList) {
-    searchView.setResult(userList);
-    repaint();
-  }
-
-  /**
-   * Menampilkan user yang dipilih.
-   *
-   * @param user user yang dipilih
-   */
-  public void showUser(User user) {
-    userView.setUser(user);
-    repaint();
-  }
-
-  public SearchQuery getSearchQuery() {
-    return searchView.getSearchQuery();
+  public UserView getUserView() {
+    return userView;
   }
 }

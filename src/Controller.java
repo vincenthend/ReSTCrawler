@@ -1,13 +1,16 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.LinkedList;
+import javax.swing.JTable;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -26,12 +29,24 @@ public class Controller {
     controlledUI = new UserInterface();
 
     //Add action listener
-    controlledUI.setSearchListener(new ActionListener() {
+    controlledUI.getSearchView().setSearchListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent actionEvent) {
-        SearchQuery query = controlledUI.getSearchQuery();
-        System.out.println(searchUsername(query));
-        //controlledUI.showSearchResult(searchUsername(query));
+        SearchQuery query = controlledUI.getSearchView().getSearchQuery();
+        controlledUI.getSearchView().getSearchResultViewView().setResult(searchUsername(query));
+      }
+    });
+    controlledUI.getSearchView().getSearchResultViewView().setSelectionListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent mouseEvent) {
+        //Get selected username
+        JTable resultTable = controlledUI.getSearchView().getSearchResultViewView().getResultTable();
+        int row = resultTable.rowAtPoint(mouseEvent.getPoint());
+        int col = resultTable.columnAtPoint(mouseEvent.getPoint());
+
+        String username = (String) resultTable.getModel().getValueAt(row, col);
+        User selectedUser = getUserDetail(username);
+        controlledUI.getUserView().setUser(selectedUser);
       }
     });
   }
@@ -42,8 +57,8 @@ public class Controller {
    * @param link URL lokasi file JSON
    * @return JSONObject berisi data JSON dari URL
    */
-  public JSONObject getJson(String link) {
-    JSONObject jsonObject = null;
+  public String getJsonString(String link) {
+    StringBuilder jsonString = new StringBuilder();
     HttpURLConnection connection;
     try {
       connection = (HttpURLConnection) new URL(link).openConnection();
@@ -53,7 +68,6 @@ public class Controller {
       if (response == 200 || response == 201) {
         BufferedReader reader = new BufferedReader(
             new InputStreamReader(connection.getInputStream()));
-        StringBuilder jsonString = new StringBuilder();
         String line;
         line = reader.readLine();
         while (line != null) {
@@ -61,21 +75,17 @@ public class Controller {
           line = reader.readLine();
         }
         reader.close();
-        jsonObject = new JSONObject(jsonString.toString());
       }
-    } catch (MalformedURLException e) {
-      e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return jsonObject;
+    return jsonString.toString();
   }
 
   /**
    * Melakukan search username/email/nama dengan request kepada REST API.
    *
-   * @param query data mengenai searching yang harus dilakukan elemen pertama berisi keyword, elemen
-   * kedua
+   * @param query data mengenai searching yang harus dilakukan
    * @return daftar username yang ditemukan
    */
   public LinkedList<String> searchUsername(SearchQuery query) {
@@ -83,7 +93,7 @@ public class Controller {
 
     //Set method string query
     String searchURL = query.getSearchURL();
-    JSONObject searchResult = getJson(searchURL);
+    JSONObject searchResult = new JSONObject(getJsonString(searchURL));
 
     //Process JSONObject
     int i;
@@ -92,16 +102,16 @@ public class Controller {
 
     LinkedList<String> usernameList = new LinkedList<>();
 
+    //Count page number needed
     int pageCount = count / userPerPage;
     if (count % userPerPage != 0) {
       pageCount++;
     }
 
-    System.out.println(count);
-    System.out.println(pageCount);
-
+    //Get username
     for (i = 1; i <= pageCount; i++) {
-      searchResult = getJson(searchURL + "&per_page=" + userPerPage + "&page=" + i);
+      searchResult = new JSONObject(
+          getJsonString(searchURL + "&per_page=" + userPerPage + "&page=" + i));
       System.out.println(searchURL + "&per_page=" + userPerPage + "&page=" + i);
       JSONArray resultArray = searchResult.getJSONArray("items");
       for (j = 0; j < resultArray.length(); j++) {
@@ -110,5 +120,52 @@ public class Controller {
     }
 
     return usernameList;
+  }
+
+  /**
+   * Mengambil data mengenai user.
+   * @param username username yang datanya diambil
+   * @return object user berisi data mengenai user terkait
+   */
+  public User getUserDetail(String username) {
+    String link = "https://api.github.com/users/";
+    System.out.println(link+username);
+    JSONObject userJson = new JSONObject(getJsonString(link + username));
+    JSONArray userRepo = new JSONArray(getJsonString(link + username + "/repos"));
+
+    User selectedUser = new User();
+
+    //Set User Detail
+    selectedUser.setUsername(userJson.getString("login"));
+    try {
+      selectedUser.setName(userJson.getString("name"));
+    }
+    catch(JSONException e){
+      selectedUser.setName("-no name-");
+    }
+    selectedUser.setRepoCount(userJson.getInt("public_repos"));
+    selectedUser.setFollowersCount(userJson.getInt("followers"));
+
+    //Add Repository Detail
+    int i;
+    Repository repoTemp;
+    String repoName;
+    String repoURL;
+    String repoDesc;
+    for(i = 0; i < userRepo.length(); i++){
+      repoName = userRepo.getJSONObject(i).getString("name");
+      repoURL = userRepo.getJSONObject(i).getString("html_url");
+      try {
+        repoDesc = userRepo.getJSONObject(i).getString("description");
+      }
+      catch(JSONException e){
+        //Exception in case of null value of description
+        repoDesc = "";
+      }
+      repoTemp = new Repository(repoName,repoURL,repoDesc);
+      selectedUser.addRepository(repoTemp);
+    }
+
+    return selectedUser;
   }
 }

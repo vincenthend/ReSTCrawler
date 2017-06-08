@@ -1,3 +1,4 @@
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -7,8 +8,19 @@ import java.net.URL;
  */
 public class Repository {
 
-  public String name;
-  public URL url;
+  private String name;
+  private URL url;
+  private String description;
+
+  public Repository(String name, String url, String description){
+    try {
+      this.name = name;
+      this.url = new URL(url);
+      this.description = description;
+    } catch (MalformedURLException e) {
+      e.printStackTrace();
+    }
+  }
 
   /**
    * Getter nama repository.
@@ -24,5 +36,9 @@ public class Repository {
    */
   public URL getUrl() {
     return url;
+  }
+
+  public String getDescription() {
+    return description;
   }
 }

@@ -66,7 +66,7 @@ public class SearchQuery {
     String root = "https://api.github.com/search/users?q=";
     String wordQuery = "";
     String locationQuery;
-    String filterQuery;
+    StringBuffer filterQuery;
     String searchURL;
 
     if (!keyword.equals("")) {
@@ -81,10 +81,10 @@ public class SearchQuery {
     }
 
     String[] tempFilter;
-    filterQuery = "";
+    filterQuery = new StringBuffer();
     while (!filter.isEmpty()) {
       tempFilter = filter.removeFirst();
-      filterQuery += "&" + tempFilter[0] + ":" + tempFilter[1] + tempFilter[2];
+      filterQuery.append("&" + tempFilter[0] + ":" + tempFilter[1] + tempFilter[2]);
     }
 
     searchURL = root + wordQuery + filterQuery;
