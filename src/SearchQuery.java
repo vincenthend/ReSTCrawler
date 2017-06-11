@@ -1,3 +1,5 @@
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.LinkedList;
 
 /**
@@ -77,7 +79,11 @@ public class SearchQuery {
       } else {
         locationQuery = "+in:login";
       }
-      wordQuery = keyword + locationQuery;
+      try {
+        wordQuery = URLEncoder.encode(keyword,"UTF-8")+locationQuery;
+      } catch (UnsupportedEncodingException e) {
+        e.printStackTrace();
+      }
     }
 
     String[] tempFilter;
@@ -88,6 +94,7 @@ public class SearchQuery {
     }
 
     searchURL = root + wordQuery + filterQuery;
+
     return searchURL;
   }
 }

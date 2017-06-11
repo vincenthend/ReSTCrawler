@@ -43,7 +43,7 @@ public class Controller {
         JTable resultTable = controlledUI.getSearchView().getSearchResultViewView().getResultTable();
         int row = resultTable.rowAtPoint(mouseEvent.getPoint());
         int col = resultTable.columnAtPoint(mouseEvent.getPoint());
-
+        System.out.println(row+""+col);
         String username = (String) resultTable.getModel().getValueAt(row, col);
         User selectedUser = getUserDetail(username);
         controlledUI.getUserView().setUser(selectedUser);
@@ -93,8 +93,8 @@ public class Controller {
 
     //Set method string query
     String searchURL = query.getSearchURL();
+    System.out.println(searchURL);
     JSONObject searchResult = new JSONObject(getJsonString(searchURL));
-
     //Process JSONObject
     int i;
     int j;
@@ -112,7 +112,6 @@ public class Controller {
     for (i = 1; i <= pageCount; i++) {
       searchResult = new JSONObject(
           getJsonString(searchURL + "&per_page=" + userPerPage + "&page=" + i));
-      System.out.println(searchURL + "&per_page=" + userPerPage + "&page=" + i);
       JSONArray resultArray = searchResult.getJSONArray("items");
       for (j = 0; j < resultArray.length(); j++) {
         usernameList.addLast(resultArray.getJSONObject(j).getString("login"));
