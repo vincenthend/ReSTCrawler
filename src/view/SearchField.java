@@ -1,3 +1,5 @@
+package view;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -6,33 +8,27 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import model.SearchQuery;
+import view.component.FilterSlider;
 
-/**
- * Kelas SearchView, menampilkan hasil pencarian.
- *
- * @author Vincent Hendryanto H / 13515089
- */
-public class SearchView extends JPanel {
-
+public class SearchField extends JPanel {
   private JTextField searchBox;
   private JButton searchButton;
   private JComboBox searchOption;
-  private SearchResultView searchResultViewView;
+  private FilterSlider followersValue;
+  private FilterSlider repoValue;
+  private JComboBox repoSign;
 
-  /**
-   * Konstruktor kelas SearchView.
-   */
-  public SearchView() {
+  public SearchField(){
     setLayout(new GridBagLayout());
     GridBagConstraints constraints = new GridBagConstraints();
 
-    //Text Search Box
     searchBox = new JTextField();
     int searchLength = 200;
     searchBox.setColumns(searchLength);
     constraints.gridx = 0;
     constraints.gridy = 0;
-    constraints.fill = GridBagConstraints.HORIZONTAL;
+    constraints.fill = GridBagConstraints.BOTH;
     constraints.weightx = 0.85;
     constraints.insets = new Insets(5, 0, 0, 0);
     add(searchBox, constraints);
@@ -44,25 +40,30 @@ public class SearchView extends JPanel {
     constraints.weightx = 0.15;
     add(searchOption, constraints);
 
+    //Repository slider
+    repoValue = new FilterSlider("Repository : ");
+    constraints.gridx = 0;
+    constraints.gridy = 1;
+    constraints.gridwidth = 2;
+    add(repoValue,constraints);
+
+    //Followers slider
+    followersValue = new FilterSlider("Followers : ");
+    constraints.gridx = 0;
+    constraints.gridy = 2;
+    constraints.gridwidth = 2;
+    add(followersValue,constraints);
+
+
     //Search Button
     searchButton = new JButton();
     searchButton.setText("Search");
     constraints.gridx = 0;
-    constraints.gridy = 1;
+    constraints.gridy = 3;
     constraints.fill = GridBagConstraints.HORIZONTAL;
     constraints.gridwidth = 2;
     add(searchButton, constraints);
 
-    //Search Result
-    searchResultViewView = new SearchResultView();
-    constraints.gridx = 0;
-    constraints.gridy = 2;
-    constraints.gridwidth = 2;
-    constraints.weighty = 10;
-    constraints.weightx = 1;
-    constraints.insets = new Insets(5, 0, 5, 0);
-    constraints.fill = GridBagConstraints.BOTH;
-    add(searchResultViewView, constraints);
   }
 
   public void setSearchListener(ActionListener actionListener) {
@@ -73,11 +74,16 @@ public class SearchView extends JPanel {
     SearchQuery query = new SearchQuery(searchBox.getText(), searchOption.getSelectedIndex());
 
     //add filter
+    int followersValue = this.followersValue.getFilterSlider().getValue();
+    int repoValue = this.repoValue.getFilterSlider().getValue();
+    if(followersValue > 0){
+      query.addFilter("followers", (String) this.followersValue.getFilterSign().getSelectedItem(),followersValue);
+    }
 
+    if(repoValue > 0){
+      query.addFilter("repos", (String) this.repoValue.getFilterSign().getSelectedItem(),repoValue);
+    }
     return query;
   }
 
-  public SearchResultView getSearchResultViewView() {
-    return searchResultViewView;
-  }
 }

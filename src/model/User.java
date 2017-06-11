@@ -1,7 +1,9 @@
+package model;
+
 import java.util.LinkedList;
 
 /**
- * Kelas User, berisi data tentang user.
+ * Kelas model.User, berisi data tentang user.
  *
  * @author Vincent Hendryanto Halim / 13515089
  */

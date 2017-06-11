@@ -1,10 +1,12 @@
+package view;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.JFrame;
 
 /**
- * Kelas UserInterface, menampilkan frame yang memuat hasil search dan user yang sedang dilihat.
+ * Kelas view.UserInterface, menampilkan frame yang memuat hasil search dan user yang sedang dilihat.
  *
  * @author Vincent Hendryanto H / 13515089
  */
@@ -13,7 +15,7 @@ public class UserInterface extends JFrame {
   private UserView userView;
 
   /**
-   * Konstruktor UserInterface.
+   * Konstruktor view.UserInterface.
    */
   public UserInterface() {
     searchView = new SearchView();

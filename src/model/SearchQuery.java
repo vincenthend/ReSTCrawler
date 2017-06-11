@@ -1,9 +1,11 @@
+package model;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.LinkedList;
 
 /**
- * Kelas SearchQuery, berisi data mengenai pencarian yang dilakukan
+ * Kelas model.SearchQuery, berisi data mengenai pencarian yang dilakukan
  *
  * @author Vincent Hendryanto Halim / 13515089
  */
@@ -68,7 +70,7 @@ public class SearchQuery {
     String root = "https://api.github.com/search/users?q=";
     String wordQuery = "";
     String locationQuery;
-    StringBuffer filterQuery;
+    String filterQuery;
     String searchURL;
 
     if (!keyword.equals("")) {
@@ -80,17 +82,17 @@ public class SearchQuery {
         locationQuery = "+in:login";
       }
       try {
-        wordQuery = URLEncoder.encode(keyword,"UTF-8")+locationQuery;
+        wordQuery = URLEncoder.encode(keyword, "UTF-8") + locationQuery;
       } catch (UnsupportedEncodingException e) {
         e.printStackTrace();
       }
     }
 
     String[] tempFilter;
-    filterQuery = new StringBuffer();
+    filterQuery = "";
     while (!filter.isEmpty()) {
       tempFilter = filter.removeFirst();
-      filterQuery.append("&" + tempFilter[0] + ":" + tempFilter[1] + tempFilter[2]);
+      filterQuery = "&" + tempFilter[0] + ":" + tempFilter[1] + tempFilter[2];
     }
 
     searchURL = root + wordQuery + filterQuery;

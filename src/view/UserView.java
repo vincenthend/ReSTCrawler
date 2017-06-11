@@ -1,11 +1,14 @@
+package view;
+
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import model.User;
 
 /**
- * Kelas UserView, menampilkan user yang dipilih.
+ * Kelas view.UserView, menampilkan user yang dipilih.
  *
  * @author Vincent Hendryanto H / 13515089
  */

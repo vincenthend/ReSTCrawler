@@ -1,6 +1,10 @@
+package view;
+
 import java.util.LinkedList;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import model.Repository;
+import view.component.UneditableTableModel;
 
 public class RepoDataView extends JScrollPane {
   JTable tableData;

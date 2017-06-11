@@ -9,9 +9,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.LinkedList;
 import javax.swing.JTable;
+import model.Repository;
+import model.SearchQuery;
+import model.User;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import view.UserInterface;
 
 /**
  * Kelas Controller, mengontrol flow data.
@@ -29,24 +33,27 @@ public class Controller {
     controlledUI = new UserInterface();
 
     //Add action listener
-    controlledUI.getSearchView().setSearchListener(new ActionListener() {
+    controlledUI.getSearchView().getSearchField().setSearchListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent actionEvent) {
-        SearchQuery query = controlledUI.getSearchView().getSearchQuery();
-        controlledUI.getSearchView().getSearchResultViewView().setResult(searchUsername(query));
+        SearchQuery query = controlledUI.getSearchView().getSearchField().getSearchQuery();
+        controlledUI.getSearchView().getSearchResultView().setResult(searchUsername(query));
       }
     });
-    controlledUI.getSearchView().getSearchResultViewView().setSelectionListener(new MouseAdapter() {
+    controlledUI.getSearchView().getSearchResultView().setSelectionListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent mouseEvent) {
         //Get selected username
-        JTable resultTable = controlledUI.getSearchView().getSearchResultViewView().getResultTable();
+        JTable resultTable = controlledUI.getSearchView().getSearchResultView()
+            .getResultTable();
         int row = resultTable.rowAtPoint(mouseEvent.getPoint());
         int col = resultTable.columnAtPoint(mouseEvent.getPoint());
-        System.out.println(row+""+col);
-        String username = (String) resultTable.getModel().getValueAt(row, col);
-        User selectedUser = getUserDetail(username);
-        controlledUI.getUserView().setUser(selectedUser);
+        System.out.println(row + "" + col);
+        if(row >= 0) {
+          String username = (String) resultTable.getModel().getValueAt(row, col);
+          User selectedUser = getUserDetail(username);
+          controlledUI.getUserView().setUser(selectedUser);
+        }
       }
     });
   }
@@ -123,45 +130,44 @@ public class Controller {
 
   /**
    * Mengambil data mengenai user.
+   *
    * @param username username yang datanya diambil
    * @return object user berisi data mengenai user terkait
    */
   public User getUserDetail(String username) {
     String link = "https://api.github.com/users/";
-    System.out.println(link+username);
+    System.out.println(link + username);
     JSONObject userJson = new JSONObject(getJsonString(link + username));
     JSONArray userRepo = new JSONArray(getJsonString(link + username + "/repos"));
 
     User selectedUser = new User();
 
-    //Set User Detail
+    //Set model.User Detail
     selectedUser.setUsername(userJson.getString("login"));
     try {
       selectedUser.setName(userJson.getString("name"));
-    }
-    catch(JSONException e){
+    } catch (JSONException e) {
       selectedUser.setName("-no name-");
     }
     selectedUser.setRepoCount(userJson.getInt("public_repos"));
     selectedUser.setFollowersCount(userJson.getInt("followers"));
 
-    //Add Repository Detail
+    //Add model.Repository Detail
     int i;
     Repository repoTemp;
     String repoName;
     String repoURL;
     String repoDesc;
-    for(i = 0; i < userRepo.length(); i++){
+    for (i = 0; i < userRepo.length(); i++) {
       repoName = userRepo.getJSONObject(i).getString("name");
       repoURL = userRepo.getJSONObject(i).getString("html_url");
       try {
         repoDesc = userRepo.getJSONObject(i).getString("description");
-      }
-      catch(JSONException e){
+      } catch (JSONException e) {
         //Exception in case of null value of description
         repoDesc = "";
       }
-      repoTemp = new Repository(repoName,repoURL,repoDesc);
+      repoTemp = new Repository(repoName, repoURL, repoDesc);
       selectedUser.addRepository(repoTemp);
     }
 

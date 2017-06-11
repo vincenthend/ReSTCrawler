@@ -1,8 +1,10 @@
+package model;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Kelas Repository, berisi data tentang Repository yang dimiliki user.
+ * Kelas model.Repository, berisi data tentang model.Repository yang dimiliki user.
  *
  * @author Vincent Hendryanto Halim / 13515089
  */
