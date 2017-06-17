@@ -14,7 +14,7 @@ public class Repository {
   private URL url;
   private String description;
 
-  public Repository(String name, String url, String description){
+  public Repository(String name, String url, String description) {
     try {
       this.name = name;
       this.url = new URL(url);
@@ -26,6 +26,7 @@ public class Repository {
 
   /**
    * Getter nama repository.
+   *
    * @return nama repository
    */
   public String getName() {
@@ -34,6 +35,7 @@ public class Repository {
 
   /**
    * Getter URL dari repository.
+   *
    * @return URL dari repository
    */
   public URL getUrl() {

@@ -13,6 +13,7 @@ import view.component.UneditableTableModel;
  * @author Vincent Hendryanto H / 13515089
  */
 public class SearchResultView extends JScrollPane {
+
   private JTable resultTable;
 
   public SearchResultView() {

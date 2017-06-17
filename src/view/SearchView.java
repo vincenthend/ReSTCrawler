@@ -11,6 +11,7 @@ import javax.swing.JPanel;
  * @author Vincent Hendryanto H / 13515089
  */
 public class SearchView extends JPanel {
+
   private SearchField searchField;
   private SearchResultView searchResultView;
 
@@ -29,7 +30,6 @@ public class SearchView extends JPanel {
     constraints.weightx = 1;
     constraints.fill = GridBagConstraints.BOTH;
     add(searchField, constraints);
-
 
     //Search Result
     searchResultView = new SearchResultView();

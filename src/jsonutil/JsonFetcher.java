@@ -1,62 +1,22 @@
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+package jsonutil;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.LinkedList;
-import javax.swing.JTable;
 import model.Repository;
 import model.SearchQuery;
 import model.User;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import view.UserInterface;
 
 /**
- * Kelas Controller, mengontrol flow data.
- *
- * @author Vincent Hendryanto Halim / 13515089
+ * Kelas JsonFetcher, mengambil data JSON dari URL tertentu
  */
-public class Controller {
-
-  private UserInterface controlledUI;
-
-  /**
-   * Konstruktor controller, membuat UI dan memasang action listener.
-   */
-  public Controller() {
-    controlledUI = new UserInterface();
-
-    //Add action listener
-    controlledUI.getSearchView().getSearchField().setSearchListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent actionEvent) {
-        SearchQuery query = controlledUI.getSearchView().getSearchField().getSearchQuery();
-        controlledUI.getSearchView().getSearchResultView().setResult(searchUsername(query));
-      }
-    });
-    controlledUI.getSearchView().getSearchResultView().setSelectionListener(new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent mouseEvent) {
-        //Get selected username
-        JTable resultTable = controlledUI.getSearchView().getSearchResultView()
-            .getResultTable();
-        int row = resultTable.rowAtPoint(mouseEvent.getPoint());
-        int col = resultTable.columnAtPoint(mouseEvent.getPoint());
-        System.out.println(row + "" + col);
-        if(row >= 0) {
-          String username = (String) resultTable.getModel().getValueAt(row, col);
-          User selectedUser = getUserDetail(username);
-          controlledUI.getUserView().setUser(selectedUser);
-        }
-      }
-    });
-  }
+public class JsonFetcher {
 
   /**
    * Mengambil data JSON dari lokasi URL tertentu.
@@ -64,7 +24,7 @@ public class Controller {
    * @param link URL lokasi file JSON
    * @return JSONObject berisi data JSON dari URL
    */
-  public String getJsonString(String link) {
+  private static String getJsonString(String link) {
     StringBuilder jsonString = new StringBuilder();
     HttpURLConnection connection;
     try {
@@ -95,7 +55,7 @@ public class Controller {
    * @param query data mengenai searching yang harus dilakukan
    * @return daftar username yang ditemukan
    */
-  public LinkedList<String> searchUsername(SearchQuery query) {
+  public static LinkedList<String> searchUsername(SearchQuery query) {
     final int userPerPage = 100;
 
     //Set method string query
@@ -134,7 +94,7 @@ public class Controller {
    * @param username username yang datanya diambil
    * @return object user berisi data mengenai user terkait
    */
-  public User getUserDetail(String username) {
+  public static User getUserDetail(String username) {
     String link = "https://api.github.com/users/";
     System.out.println(link + username);
     JSONObject userJson = new JSONObject(getJsonString(link + username));

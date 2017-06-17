@@ -7,17 +7,18 @@ import model.Repository;
 import view.component.UneditableTableModel;
 
 public class RepoDataView extends JScrollPane {
+
   JTable tableData;
 
-  public RepoDataView(){
-    tableData = new JTable(0,3);
+  public RepoDataView() {
+    tableData = new JTable(0, 3);
     tableData.setFillsViewportHeight(true);
     tableData.setTableHeader(null);
-
+    tableData.setColumnSelectionAllowed(false);
     getViewport().add(tableData);
   }
 
-  public void setData(LinkedList<Repository> repoData){
+  public void setData(LinkedList<Repository> repoData) {
     int i;
     UneditableTableModel tableModel = new UneditableTableModel(repoData.size(), 3);
     for (i = 0; i < repoData.size(); i++) {

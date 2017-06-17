@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 
 public class FilterSlider extends JPanel {
+
   private final int MIN_VALUE = 0;
   private final int MAX_VALUE = 100;
   private final int INIT_VALUE = 0;
@@ -16,7 +17,7 @@ public class FilterSlider extends JPanel {
   private JLabel filterLabel;
   private JComboBox filterSign;
 
-  public FilterSlider(String filterLabel){
+  public FilterSlider(String filterLabel) {
     setLayout(new GridBagLayout());
 
     GridBagConstraints constraints = new GridBagConstraints();
@@ -26,7 +27,7 @@ public class FilterSlider extends JPanel {
     constraints.gridx = 0;
     constraints.weightx = 0.25;
     constraints.fill = GridBagConstraints.BOTH;
-    add(this.filterLabel,constraints);
+    add(this.filterLabel, constraints);
 
     filterSlider = new JSlider();
     filterSlider.setMinimum(MIN_VALUE);
@@ -36,16 +37,17 @@ public class FilterSlider extends JPanel {
     filterSlider.setPaintTicks(false);
     filterSlider.setMajorTickSpacing(20);
     filterSlider.setMinorTickSpacing(1);
+    filterSlider.setFocusable(false);
     constraints.gridx = 1;
     constraints.weightx = 0.8;
-    add(filterSlider,constraints);
+    add(filterSlider, constraints);
 
     String[] sign = {">", "<"};
     filterSign = new JComboBox(sign);
     constraints.gridx = 3;
     constraints.weightx = 0.2;
-    constraints.insets = new Insets(0,10,0,0);
-    add(filterSign,constraints);
+    constraints.insets = new Insets(0, 10, 0, 0);
+    add(filterSign, constraints);
   }
 
   public JComboBox getFilterSign() {

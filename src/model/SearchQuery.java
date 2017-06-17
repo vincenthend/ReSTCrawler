@@ -44,15 +44,6 @@ public class SearchQuery {
   }
 
   /**
-   * Setter keyword.
-   *
-   * @param keyword keyword pencarian
-   */
-  public void setKeyword(String keyword) {
-    this.keyword = keyword;
-  }
-
-  /**
    * Setter method.
    *
    * @param method metode pencarian (0 = username, 1 = email, 2 = full name)
@@ -98,5 +89,18 @@ public class SearchQuery {
     searchURL = root + wordQuery + filterQuery;
 
     return searchURL;
+  }
+
+  public String getKeyword() {
+    return keyword;
+  }
+
+  /**
+   * Setter keyword.
+   *
+   * @param keyword keyword pencarian
+   */
+  public void setKeyword(String keyword) {
+    this.keyword = keyword;
   }
 }

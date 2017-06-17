@@ -1,6 +1,6 @@
 # Github Crawler
 ## JSON
-* JSON (JavaScript Object Notation) adalah file format dalam bentuk teks yang berisi data atau array yang ditandai dengan filetype .json
+* JSON (JavaScript Object Notation) adalah file format dalam bentuk teks yang berisi data atau array yang ditandai dengan filetype .jsonutil
 * Tipe data yang disupport oleh JSON meliputi
 	- Number
 	- String
@@ -9,7 +9,7 @@
 	- Object (unordered list)
 	- null
 * JSON dibuat dengan bentuk sebagai berikut
-	```json
+	```jsonutil
 	{
 		"atributString": "string-atribut1",
 		"atributNumber": 123,

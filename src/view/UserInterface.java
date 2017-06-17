@@ -6,11 +6,13 @@ import java.awt.Insets;
 import javax.swing.JFrame;
 
 /**
- * Kelas view.UserInterface, menampilkan frame yang memuat hasil search dan user yang sedang dilihat.
+ * Kelas view.UserInterface, menampilkan frame yang memuat hasil search dan user yang sedang
+ * dilihat.
  *
  * @author Vincent Hendryanto H / 13515089
  */
 public class UserInterface extends JFrame {
+
   private SearchView searchView;
   private UserView userView;
 
@@ -30,7 +32,7 @@ public class UserInterface extends JFrame {
     constraints.gridy = 0;
     constraints.weightx = 1.5;
     constraints.weighty = 1;
-    constraints.insets = new Insets(0,10,0,0);
+    constraints.insets = new Insets(0, 10, 0, 0);
     add(searchView, constraints);
 
     //add userView

@@ -12,6 +12,7 @@ import model.SearchQuery;
 import view.component.FilterSlider;
 
 public class SearchField extends JPanel {
+
   private JTextField searchBox;
   private JButton searchButton;
   private JComboBox searchOption;
@@ -19,7 +20,7 @@ public class SearchField extends JPanel {
   private FilterSlider repoValue;
   private JComboBox repoSign;
 
-  public SearchField(){
+  public SearchField() {
     setLayout(new GridBagLayout());
     GridBagConstraints constraints = new GridBagConstraints();
 
@@ -45,15 +46,14 @@ public class SearchField extends JPanel {
     constraints.gridx = 0;
     constraints.gridy = 1;
     constraints.gridwidth = 2;
-    add(repoValue,constraints);
+    add(repoValue, constraints);
 
     //Followers slider
     followersValue = new FilterSlider("Followers : ");
     constraints.gridx = 0;
     constraints.gridy = 2;
     constraints.gridwidth = 2;
-    add(followersValue,constraints);
-
+    add(followersValue, constraints);
 
     //Search Button
     searchButton = new JButton();
@@ -76,12 +76,14 @@ public class SearchField extends JPanel {
     //add filter
     int followersValue = this.followersValue.getFilterSlider().getValue();
     int repoValue = this.repoValue.getFilterSlider().getValue();
-    if(followersValue > 0){
-      query.addFilter("followers", (String) this.followersValue.getFilterSign().getSelectedItem(),followersValue);
+    if (followersValue > 0) {
+      query.addFilter("followers", (String) this.followersValue.getFilterSign().getSelectedItem(),
+          followersValue);
     }
 
-    if(repoValue > 0){
-      query.addFilter("repos", (String) this.repoValue.getFilterSign().getSelectedItem(),repoValue);
+    if (repoValue > 0) {
+      query
+          .addFilter("repos", (String) this.repoValue.getFilterSign().getSelectedItem(), repoValue);
     }
     return query;
   }
