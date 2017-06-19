@@ -6,10 +6,18 @@ import javax.swing.JTable;
 import model.Repository;
 import view.component.UneditableTableModel;
 
+/**
+ * Kelas RepoDataView, berisi data dari repository milik user.
+ *
+ * @author Vincent Hendryanto Halim / 13515089
+ */
 public class RepoDataView extends JScrollPane {
 
-  JTable tableData;
+  private JTable tableData;
 
+  /**
+   * Konstruktor kelas RepoDataView.
+   */
   public RepoDataView() {
     tableData = new JTable(0, 3);
     tableData.setFillsViewportHeight(true);
@@ -18,6 +26,11 @@ public class RepoDataView extends JScrollPane {
     getViewport().add(tableData);
   }
 
+  /**
+   * Memasang data repository pada tabel.
+   *
+   * @param repoData data repository
+   */
   public void setData(LinkedList<Repository> repoData) {
     int i;
     UneditableTableModel tableModel = new UneditableTableModel(repoData.size(), 3);

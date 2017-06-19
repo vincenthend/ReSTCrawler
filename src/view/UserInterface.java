@@ -6,7 +6,7 @@ import java.awt.Insets;
 import javax.swing.JFrame;
 
 /**
- * Kelas view.UserInterface, menampilkan frame yang memuat hasil search dan user yang sedang
+ * Kelas UserInterface, menampilkan frame yang memuat hasil search dan user yang sedang
  * dilihat.
  *
  * @author Vincent Hendryanto H / 13515089
@@ -47,10 +47,18 @@ public class UserInterface extends JFrame {
     setVisible(true);
   }
 
+  /**
+   * Getter objek searchView.
+   * @return objek searchView
+   */
   public SearchView getSearchView() {
     return searchView;
   }
 
+  /**
+   * Getter objek userView.
+   * @return objek UserView
+   */
   public UserView getUserView() {
     return userView;
   }

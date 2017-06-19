@@ -8,15 +8,25 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
+/**
+ * Kelas FilterSlider, objek slider untuk filter.
+ *
+ * @author Vincent Hendryanto Halim / 13515089
+ */
 public class FilterSlider extends JPanel {
 
-  private final int MIN_VALUE = 0;
-  private final int MAX_VALUE = 100;
-  private final int INIT_VALUE = 0;
+  private final int minValue = 0;
+  private final int maxValue = 100;
+  private final int initValue = 0;
   private JSlider filterSlider;
   private JLabel filterLabel;
   private JComboBox filterSign;
 
+  /**
+   * Konstruktor kelas FilterSlider.
+   *
+   * @param filterLabel label filter
+   */
   public FilterSlider(String filterLabel) {
     setLayout(new GridBagLayout());
 
@@ -30,9 +40,9 @@ public class FilterSlider extends JPanel {
     add(this.filterLabel, constraints);
 
     filterSlider = new JSlider();
-    filterSlider.setMinimum(MIN_VALUE);
-    filterSlider.setMaximum(MAX_VALUE);
-    filterSlider.setValue(INIT_VALUE);
+    filterSlider.setMinimum(minValue);
+    filterSlider.setMaximum(maxValue);
+    filterSlider.setValue(initValue);
     filterSlider.setPaintLabels(true);
     filterSlider.setPaintTicks(false);
     filterSlider.setMajorTickSpacing(20);
@@ -50,11 +60,21 @@ public class FilterSlider extends JPanel {
     add(filterSign, constraints);
   }
 
+  /**
+   * Getter tanda filter.
+   *
+   * @return tanda dari filter
+   */
   public JComboBox getFilterSign() {
     return filterSign;
   }
 
-  public JSlider getFilterSlider() {
-    return filterSlider;
+  /**
+   * Getter dari nilai filter slider.
+   *
+   * @return nilai dari filter slider
+   */
+  public int getFilterValue() {
+    return filterSlider.getValue();
   }
 }

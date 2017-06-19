@@ -6,7 +6,7 @@ import java.awt.Insets;
 import javax.swing.JPanel;
 
 /**
- * Kelas view.SearchView, menampilkan hasil pencarian.
+ * Kelas SearchView, menampilkan hasil pencarian.
  *
  * @author Vincent Hendryanto H / 13515089
  */
@@ -43,10 +43,18 @@ public class SearchView extends JPanel {
     add(searchResultView, constraints);
   }
 
+  /**
+   * Getter dari searchField.
+   * @return objek searchField
+   */
   public SearchField getSearchField() {
     return searchField;
   }
 
+  /**
+   * Getter objek searchResultView.
+   * @return objek SearchResultView
+   */
   public SearchResultView getSearchResultView() {
     return searchResultView;
   }

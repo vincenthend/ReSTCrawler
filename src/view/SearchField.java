@@ -11,6 +11,11 @@ import javax.swing.JTextField;
 import model.SearchQuery;
 import view.component.FilterSlider;
 
+/**
+ * Kelas SearchField berisi field untuk melakukan search.
+ *
+ * @author Vincent Hendryanto Halim / 13515089
+ */
 public class SearchField extends JPanel {
 
   private JTextField searchBox;
@@ -20,6 +25,9 @@ public class SearchField extends JPanel {
   private FilterSlider repoValue;
   private JComboBox repoSign;
 
+  /**
+   * Konstruktor kelas search field.
+   */
   public SearchField() {
     setLayout(new GridBagLayout());
     GridBagConstraints constraints = new GridBagConstraints();
@@ -66,16 +74,24 @@ public class SearchField extends JPanel {
 
   }
 
+  /**
+   * Memasangkan searchListener setelah melakukan search.
+   * @param actionListener actionListener untuk button
+   */
   public void setSearchListener(ActionListener actionListener) {
     searchButton.addActionListener(actionListener);
   }
 
+  /**
+   * Mengambil searchQuery.
+   * @return objek searchQuery dari searchField.
+   */
   public SearchQuery getSearchQuery() {
     SearchQuery query = new SearchQuery(searchBox.getText(), searchOption.getSelectedIndex());
 
     //add filter
-    int followersValue = this.followersValue.getFilterSlider().getValue();
-    int repoValue = this.repoValue.getFilterSlider().getValue();
+    int followersValue = this.followersValue.getFilterValue();
+    int repoValue = this.repoValue.getFilterValue();
     if (followersValue > 0) {
       query.addFilter("followers", (String) this.followersValue.getFilterSign().getSelectedItem(),
           followersValue);

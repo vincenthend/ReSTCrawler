@@ -14,23 +14,23 @@ import model.User;
  */
 public class UserView extends JPanel {
 
-  public JLabel username;
-  public JLabel fullName;
-  public JLabel repoCount;
-  public JLabel followCount;
-  public RepoDataView repoDataView;
+  private JLabel username;
+  private JLabel fullName;
+  private JLabel repoCount;
+  private JLabel followCount;
+  private RepoDataView repoDataView;
 
   /**
-   * Konstruktor kelas userView
+   * Konstruktor kelas userView.
    */
   public UserView() {
     setLayout(new GridBagLayout());
-    GridBagConstraints constraints = new GridBagConstraints();
     username = new JLabel(" ");
     fullName = new JLabel(" ");
     repoCount = new JLabel(" ");
     followCount = new JLabel(" ");
     repoDataView = new RepoDataView();
+    GridBagConstraints constraints = new GridBagConstraints();
     constraints.fill = GridBagConstraints.BOTH;
 
     //Username

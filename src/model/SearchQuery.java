@@ -5,7 +5,7 @@ import java.net.URLEncoder;
 import java.util.LinkedList;
 
 /**
- * Kelas model.SearchQuery, berisi data mengenai pencarian yang dilakukan
+ * Kelas SearchQuery, berisi data mengenai pencarian yang dilakukan.
  *
  * @author Vincent Hendryanto Halim / 13515089
  */
@@ -44,25 +44,14 @@ public class SearchQuery {
   }
 
   /**
-   * Setter method.
-   *
-   * @param method metode pencarian (0 = username, 1 = email, 2 = full name)
-   */
-  public void setMethod(int method) {
-    this.method = method;
-  }
-
-  /**
    * Mengembalikan URL search query.
    *
    * @return URL yang digunakan untuk melakukan search query
    */
-  public String getSearchURL() {
-    String root = "https://api.github.com/search/users?q=";
+  public String getSearchUrl() {
     String wordQuery = "";
     String locationQuery;
     String filterQuery;
-    String searchURL;
 
     if (!keyword.equals("")) {
       if (method == 1) {
@@ -86,11 +75,17 @@ public class SearchQuery {
       filterQuery = "&" + tempFilter[0] + ":" + tempFilter[1] + tempFilter[2];
     }
 
-    searchURL = root + wordQuery + filterQuery;
+    String root = "https://api.github.com/search/users?q=";
+    String searchUrl = root + wordQuery + filterQuery;
 
-    return searchURL;
+    return searchUrl;
   }
 
+  /**
+   * Getter keyword.
+   *
+   * @return keyword pencarian
+   */
   public String getKeyword() {
     return keyword;
   }
@@ -102,5 +97,14 @@ public class SearchQuery {
    */
   public void setKeyword(String keyword) {
     this.keyword = keyword;
+  }
+
+  /**
+   * Setter method.
+   *
+   * @param method method pencarian (0 = login, 1 = email, 2 = fullname)
+   */
+  public void setMethod(int method) {
+    this.method = method;
   }
 }

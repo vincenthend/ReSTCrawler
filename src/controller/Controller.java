@@ -1,7 +1,5 @@
 package controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
@@ -18,33 +16,30 @@ import view.UserInterface;
  */
 public class Controller {
 
-  private UserInterface controlledUI;
+  private UserInterface controlledUi;
 
   /**
    * Konstruktor controller, membuat UI dan memasang action listener.
    */
   public Controller() {
-    controlledUI = new UserInterface();
+    controlledUi = new UserInterface();
 
     //Add action listener
-    controlledUI.getSearchView().getSearchField().setSearchListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent actionEvent) {
-        SearchQuery query = controlledUI.getSearchView().getSearchField().getSearchQuery();
-        if (query.getKeyword().length() <= 3) {
-          String message = "Keyword has to be more than 3 characters";
-          JOptionPane.showMessageDialog(null, message, null, JOptionPane.INFORMATION_MESSAGE);
-        } else {
-          controlledUI.getSearchView().getSearchResultView()
-              .setResult(JsonFetcher.searchUsername(query));
-        }
+    controlledUi.getSearchView().getSearchField().setSearchListener(actionEvent -> {
+      SearchQuery query = controlledUi.getSearchView().getSearchField().getSearchQuery();
+      if (query.getKeyword().length() <= 3) {
+        String message = "Keyword has to be more than 3 characters";
+        JOptionPane.showMessageDialog(null, message, null, JOptionPane.INFORMATION_MESSAGE);
+      } else {
+        controlledUi.getSearchView().getSearchResultView()
+            .setResult(JsonFetcher.searchUsername(query));
       }
     });
-    controlledUI.getSearchView().getSearchResultView().setSelectionListener(new MouseAdapter() {
+    controlledUi.getSearchView().getSearchResultView().setSelectionListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent mouseEvent) {
         //Get selected username
-        JTable resultTable = controlledUI.getSearchView().getSearchResultView()
+        JTable resultTable = controlledUi.getSearchView().getSearchResultView()
             .getResultTable();
         int row = resultTable.rowAtPoint(mouseEvent.getPoint());
         int col = resultTable.columnAtPoint(mouseEvent.getPoint());
@@ -52,7 +47,7 @@ public class Controller {
         if (row >= 0) {
           String username = (String) resultTable.getModel().getValueAt(row, col);
           User selectedUser = JsonFetcher.getUserDetail(username);
-          controlledUI.getUserView().setUser(selectedUser);
+          controlledUi.getUserView().setUser(selectedUser);
         }
       }
     });

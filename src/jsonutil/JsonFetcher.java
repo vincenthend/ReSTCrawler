@@ -14,7 +14,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Kelas JsonFetcher, mengambil data JSON dari URL tertentu
+ * Kelas JsonFetcher, mengambil data JSON dari URL tertentu.
+ *
+ * @author Vincent Hendryanto Halim / 13515089
  */
 public class JsonFetcher {
 
@@ -59,9 +61,9 @@ public class JsonFetcher {
     final int userPerPage = 100;
 
     //Set method string query
-    String searchURL = query.getSearchURL();
-    System.out.println(searchURL);
-    JSONObject searchResult = new JSONObject(getJsonString(searchURL));
+    String searchUrl = query.getSearchUrl();
+    System.out.println(searchUrl);
+    JSONObject searchResult = new JSONObject(getJsonString(searchUrl));
     //Process JSONObject
     int i;
     int j;
@@ -78,7 +80,7 @@ public class JsonFetcher {
     //Get username
     for (i = 1; i <= pageCount; i++) {
       searchResult = new JSONObject(
-          getJsonString(searchURL + "&per_page=" + userPerPage + "&page=" + i));
+          getJsonString(searchUrl + "&per_page=" + userPerPage + "&page=" + i));
       JSONArray resultArray = searchResult.getJSONArray("items");
       for (j = 0; j < resultArray.length(); j++) {
         usernameList.addLast(resultArray.getJSONObject(j).getString("login"));
@@ -98,11 +100,11 @@ public class JsonFetcher {
     String link = "https://api.github.com/users/";
     System.out.println(link + username);
     JSONObject userJson = new JSONObject(getJsonString(link + username));
-    JSONArray userRepo = new JSONArray(getJsonString(link + username + "/repos"));
+
 
     User selectedUser = new User();
 
-    //Set model.User Detail
+    //Set User Detail
     selectedUser.setUsername(userJson.getString("login"));
     try {
       selectedUser.setName(userJson.getString("name"));
@@ -112,22 +114,23 @@ public class JsonFetcher {
     selectedUser.setRepoCount(userJson.getInt("public_repos"));
     selectedUser.setFollowersCount(userJson.getInt("followers"));
 
-    //Add model.Repository Detail
+    //Add Repository Detail
     int i;
     Repository repoTemp;
     String repoName;
-    String repoURL;
+    String repoUrl;
     String repoDesc;
+    JSONArray userRepo = new JSONArray(getJsonString(link + username + "/repos"));
     for (i = 0; i < userRepo.length(); i++) {
       repoName = userRepo.getJSONObject(i).getString("name");
-      repoURL = userRepo.getJSONObject(i).getString("html_url");
+      repoUrl = userRepo.getJSONObject(i).getString("html_url");
       try {
         repoDesc = userRepo.getJSONObject(i).getString("description");
       } catch (JSONException e) {
         //Exception in case of null value of description
         repoDesc = "";
       }
-      repoTemp = new Repository(repoName, repoURL, repoDesc);
+      repoTemp = new Repository(repoName, repoUrl, repoDesc);
       selectedUser.addRepository(repoTemp);
     }
 

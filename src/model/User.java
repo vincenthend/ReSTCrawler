@@ -15,6 +15,9 @@ public class User {
   private int repoCount;
   private int followersCount;
 
+  /**
+   * Konstruktor default user.
+   */
   public User() {
     name = "";
     username = "";
@@ -23,6 +26,14 @@ public class User {
     repositoryList = new LinkedList<>();
   }
 
+  /**
+   * Konstruktor user dengan parameter.
+   *
+   * @param username username user
+   * @param name nama lengkap dari user
+   * @param repoCount jumlah repository dari user
+   * @param followersCount jumlah follower dari user
+   */
   public User(String username, String name, int repoCount, int followersCount) {
     this.username = username;
     this.name = name;
@@ -44,6 +55,11 @@ public class User {
     return username;
   }
 
+  /**
+   * Setter username dari user.
+   *
+   * @param username username dari user
+   */
   public void setUsername(String username) {
     this.username = username;
   }
@@ -57,26 +73,56 @@ public class User {
     return repositoryList;
   }
 
+  /**
+   * Getter nama dari user.
+   *
+   * @return nama user
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Setter nama dari user.
+   *
+   * @param name nama user
+   */
   public void setName(String name) {
     this.name = name;
   }
 
+  /**
+   * Getter jumlah follower.
+   *
+   * @return jumlah follower user
+   */
   public int getFollowersCount() {
     return followersCount;
   }
 
+  /**
+   * Setter jumlah follower user.
+   *
+   * @param followersCount jumlah follower user
+   */
   public void setFollowersCount(int followersCount) {
     this.followersCount = followersCount;
   }
 
+  /**
+   * Getter jumlah repository.
+   *
+   * @return jumlah repository user
+   */
   public int getRepoCount() {
     return repoCount;
   }
 
+  /**
+   * Setter jumlah repository.
+   *
+   * @param repoCount jumlah repository user
+   */
   public void setRepoCount(int repoCount) {
     this.repoCount = repoCount;
   }

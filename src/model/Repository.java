@@ -4,7 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Kelas model.Repository, berisi data tentang model.Repository yang dimiliki user.
+ * Kelas Repository, berisi data tentang Repository yang dimiliki user.
  *
  * @author Vincent Hendryanto Halim / 13515089
  */
@@ -14,6 +14,13 @@ public class Repository {
   private URL url;
   private String description;
 
+  /**
+   * Konstruktor repository.
+   *
+   * @param name nama Repository
+   * @param url alamat repository
+   * @param description deskripsi repository
+   */
   public Repository(String name, String url, String description) {
     try {
       this.name = name;
@@ -42,6 +49,11 @@ public class Repository {
     return url;
   }
 
+  /**
+   * Getter deskripsi repository.
+   *
+   * @return isi deskripsi repository
+   */
   public String getDescription() {
     return description;
   }
