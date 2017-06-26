@@ -32,7 +32,7 @@ public class SearchQuery {
    * Memasang filter sesuai dengan parameter yang diberikan.
    *
    * @param code kode filter yang digunakan
-   * @param sign tanda yang digunakan pada filter (<= atau >=)
+   * @param sign tanda yang digunakan pada filter
    * @param amount nilai jumlah untuk filter
    */
   public void addFilter(String code, String sign, int amount) {

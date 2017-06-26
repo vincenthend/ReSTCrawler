@@ -4,14 +4,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import jsonutil.GithubFetcher;
+import util.GithubFetcher;
 import model.SearchQuery;
 import model.User;
 import org.json.JSONException;
 import view.UserInterface;
 
 /**
- * Kelas controller.Controller, mengontrol flow data.
+ * Kelas Controller, mengontrol flow data dan munculnya UI.
  *
  * @author Vincent Hendryanto Halim / 13515089
  */

@@ -42,6 +42,11 @@ public class User {
     repositoryList = new LinkedList<>();
   }
 
+  /**
+   * Menambahkan repository yang dimiliki user.
+   *
+   * @param repo repository yang dimiliki
+   */
   public void addRepository(Repository repo) {
     repositoryList.addLast(repo);
   }

@@ -1,4 +1,4 @@
-package jsonutil;
+package util;
 
 import java.util.LinkedList;
 import javax.swing.JOptionPane;
