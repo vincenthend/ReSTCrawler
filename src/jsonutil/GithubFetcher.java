@@ -31,7 +31,6 @@ public class GithubFetcher {
 
       //Set method string query
       String searchUrl = query.getSearchUrl();
-      System.out.println(searchUrl);
       JSONObject searchResult = new JSONObject(JsonFetcher.getJsonString(searchUrl));
 
       //Process JSONObject
@@ -71,7 +70,6 @@ public class GithubFetcher {
 
   public static User getUserDetail(String username) throws JSONException {
     String link = "https://api.github.com/users/";
-    System.out.println(link + username);
     JSONObject userJson = new JSONObject(JsonFetcher.getJsonString(link + username));
 
     User selectedUser = new User();

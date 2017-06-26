@@ -36,7 +36,7 @@ public class Controller {
             .setResult(GithubFetcher.searchUsername(query));
       }
     });
-    controlledUi.getSearchView().getSearchResultView().setSelectionListener(new MouseAdapter() {
+    controlledUi.getSearchView().getSearchResultView().addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent mouseEvent) {
         //Get selected username
@@ -44,7 +44,6 @@ public class Controller {
             .getResultTable();
         int row = resultTable.rowAtPoint(mouseEvent.getPoint());
         int col = resultTable.columnAtPoint(mouseEvent.getPoint());
-        System.out.println(row + "" + col);
         try {
           if (row >= 0) {
             String username = (String) resultTable.getModel().getValueAt(row, col);

@@ -1,5 +1,11 @@
 package view;
 
+import java.awt.Desktop;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.LinkedList;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -23,6 +29,25 @@ public class RepoDataView extends JScrollPane {
     tableData.setFillsViewportHeight(true);
     tableData.setTableHeader(null);
     tableData.setColumnSelectionAllowed(false);
+    tableData.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent mouseEvent) {
+        int row = tableData.rowAtPoint(mouseEvent.getPoint());
+        int col = tableData.columnAtPoint(mouseEvent.getPoint());
+        if (row >= 0 && col == 1) {
+          try {
+            URL repoURL = (URL) tableData.getModel().getValueAt(row, col);
+            Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+            if (desktop != null && Desktop.isDesktopSupported()) {
+              desktop.browse(repoURL.toURI());
+            }
+          } catch (URISyntaxException | IOException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+    });
+
     getViewport().add(tableData);
   }
 
