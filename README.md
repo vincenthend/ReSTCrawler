@@ -63,4 +63,4 @@ Aplikasi ini dapat melakukan fitur sebagai berikut :
 
 ![Tampilan Error](/docs/screenshot/ss-2.jpg?raw=true "Tampilan Error")
 
-
+Keterangan : File Executable JAR dapat ditemukan di folder executables
