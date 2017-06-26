@@ -4,9 +4,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import jsonutil.JsonFetcher;
+import jsonutil.GithubFetcher;
 import model.SearchQuery;
 import model.User;
+import org.json.JSONException;
 import view.UserInterface;
 
 /**
@@ -32,7 +33,7 @@ public class Controller {
         JOptionPane.showMessageDialog(null, message, null, JOptionPane.INFORMATION_MESSAGE);
       } else {
         controlledUi.getSearchView().getSearchResultView()
-            .setResult(JsonFetcher.searchUsername(query));
+            .setResult(GithubFetcher.searchUsername(query));
       }
     });
     controlledUi.getSearchView().getSearchResultView().setSelectionListener(new MouseAdapter() {
@@ -44,10 +45,15 @@ public class Controller {
         int row = resultTable.rowAtPoint(mouseEvent.getPoint());
         int col = resultTable.columnAtPoint(mouseEvent.getPoint());
         System.out.println(row + "" + col);
-        if (row >= 0) {
-          String username = (String) resultTable.getModel().getValueAt(row, col);
-          User selectedUser = JsonFetcher.getUserDetail(username);
-          controlledUi.getUserView().setUser(selectedUser);
+        try {
+          if (row >= 0) {
+            String username = (String) resultTable.getModel().getValueAt(row, col);
+            User selectedUser = GithubFetcher.getUserDetail(username);
+            controlledUi.getUserView().setUser(selectedUser);
+          }
+        } catch (JSONException e) {
+          //Failed to get data because of request limit
+          JOptionPane.showMessageDialog(null, "Request limit reached, please try again later");
         }
       }
     });
